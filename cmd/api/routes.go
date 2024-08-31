@@ -13,6 +13,7 @@ func (app *application) routes() http.Handler {
 	r.Use(middleware.Recoverer)
 
 	apiRouter := chi.NewRouter()
+	apiRouter.Get("/movies/{id}", app.showMovieHandler)
 
 	r.Mount("/api/v1", apiRouter)
 

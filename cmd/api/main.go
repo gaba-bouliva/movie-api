@@ -25,6 +25,7 @@ type config struct {
 type application 	struct {
 	config 		config
 	logger 		*log.Logger
+	version    string
 }
 
 func main() {
@@ -43,6 +44,7 @@ func main() {
 	app := application{
 		config: cfg,
 		logger: logger,
+		version: version,
 	}
 
 	if err := app.run(); err != nil {
