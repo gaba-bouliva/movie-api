@@ -1,7 +1,10 @@
 package main
 
 import (
+	"errors"
 	"net/http"
+
+	"github.com/gaba-bouliva/movie-api/internal/data"
 )
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
@@ -10,6 +13,19 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 		app.badRequestError(w,r,err)
 		return
 	}
-	app.logger.Printf("id: %d provided", id)
+
+	movie, err := app.models.Movies.Get(id)
+	if err != nil {
+		app.logErr(err)
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			app.notFoundError(w,r)
+		default:
+			app.serverError(w,r)	
+		}
+		return
+	}
+
+	app.writeJSON(w,jsonResponse{"movie": movie}, http.StatusOK, nil)
 
 }
