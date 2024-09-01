@@ -17,6 +17,7 @@ func (app *application) routes() http.Handler {
 
 	apiRouter := chi.NewRouter()
 	apiRouter.Get("/movies/{id}", app.showMovieHandler)
+	apiRouter.Post("/movies", app.createMovieHandler)
 
 	r.Mount("/api/v1", apiRouter)
 

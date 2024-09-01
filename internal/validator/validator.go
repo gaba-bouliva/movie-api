@@ -10,7 +10,7 @@ type Validator struct {
 	Errors map[string]string
 }
 
-func (v Validator) New() *Validator{
+func New() *Validator{
 	return &Validator{
 		make(map[string]string, 0),
 	}
@@ -42,7 +42,7 @@ func (v *Validator) In(value string, list ...string) bool {
 	return false
 }
 
-func (v Validator) Unique(values []string) bool {
+func Unique(values []string) bool {
 	uniqeValues := make(map[string]int)
 
 	for i, val := range values {
