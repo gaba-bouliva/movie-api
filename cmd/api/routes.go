@@ -20,6 +20,7 @@ func (app *application) routes() http.Handler {
 	apiRouter.Post("/movies", app.createMovieHandler)
 	apiRouter.Put("/movies/{id}", app.updateMovieHandler)
 	apiRouter.Delete("/movies/{id}", app.deleteMovieHandler)
+	apiRouter.Get("/movies", app.listMoviesHandler)
 
 	r.Mount("/api/v1", apiRouter)
 

@@ -49,7 +49,7 @@ func main() {
 
 	db, err := OpenDB(cfg)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Fatal("error connecting to db\n",err)
 	}
 	defer db.Close()
 

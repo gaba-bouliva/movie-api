@@ -1,6 +1,7 @@
 package data
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"time"
@@ -121,4 +122,41 @@ func (m MovieModel) Delete(id int) error{
 	}
 
 	return nil
+}
+
+func (m *MovieModel) GetAll(title string, genres[]string, filters Filters) ([]*Movie, error) {
+	query := `
+	SELECT id, title, year, runtime, genres, version
+	FROM movies
+	ORDER BY id
+	`
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	defer cancel()
+
+	rows, err := m.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	movies := []*Movie{}
+
+	var movie Movie
+
+	for rows.Next() {
+		err := rows.Scan(
+			&movie.ID,
+			&movie.Title,
+			&movie.Year,
+			&movie.Runtime.Value,
+			pq.Array(&movie.Genres),
+			&movie.Version )
+		
+		if err != nil {
+			return nil, err
+		}
+
+		movies = append(movies, &movie)
+	}
+
+	return movies,nil
 }

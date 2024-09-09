@@ -32,7 +32,7 @@ func (v *Validator) Check(ok bool, key, errMessage string) {
 	}
 }
 
-func (v *Validator) In(value string, list ...string) bool {
+func In(value string, list ...string) bool {
 	for _, val := range list {
 		if val == value {
 			return true
